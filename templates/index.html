@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="static/images/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="static/style.css" />
+    <link href="https://css.gg/chevron-right.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <title>Brain MRI Segmentation</title>
+    <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+    <script>window.onload = () => onSelectChange();</script>
+  </head>
+  <body>
+    <a
+      href="https://github.com/adasegroup/NEUROML2021"
+      target="_blank"
+      class="container logo-container"
+    >
+      <h1 class="logo green">NEURO</h1>
+      <h1 class="logo">ML 2021</h1>
+    </a>
+    <div class="content">
+      <h1 class="title">Brain MRI segmentation</h1>
+      <form
+        class="interaction"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div class="container interaction-block">
+
+          {% if modelError %}
+            <p class=error><strong>Error:</strong> {{ modelError }}</p>
+          {% endif %}
+          <select id="model-select" name="model-select" onchange="onSelectChange()">
+            <option value="default model" selected>U-Net with 4 blocks</option>
+            <option value="user's model">Upoad your model</option></select
+          ><br />
+          <input class="upload" type="file" name="model-upload" id="model-upload" onchange="onFileUpload(this)"/><br />
+          <p>Choose model from the list.</p>
+        </div>
+        <div class="container interaction-block">
+          {% if dataError %}
+            <p class=error><strong>Error:</strong> {{ dataError }}</p>
+          {% endif %}
+          <input class="upload" type="file" name="data-upload" id="data-upload" onchange="onFileUpload(this)" multiple/><br />
+          <p>Upload your data in .nii format.</p>
+        </div>
+
+        <div class="container interaction-block submit-block">
+          <button id="submit" class="submit" type="submit" disabled>
+            Segment
+            <i class="gg-chevron-right"></i>
+          </button>
+          <p class="error" id="hint"> Upload data and choose the model.</p>
+        </div>
+      </form>
+    </div>
+    <div class="gallery"></div>
+    <div class="notes"></div>
+    <footer>
+      We do not store your data - all the uploaded files are deleted after
+      segmentation is done.
+
+	  <div class="row">
+      
+      {% if success %}
+      Results:<br>
+      <img src="static/images/seg1.png" style="height: 200px" /></div>
+      {% endif %}
+	  </footer>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+body {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: #f2f9ef;
+    opacity: 1;
+    background: repeating-linear-gradient( -45deg, #ebf6e6, #ebf6e6 2px, #f2f9ef 2px, #f2f9ef 100px );
+    overflow: hidden;
+}
+
+p {
+    color: #00200080;
+}
+
+footer {
+    width: 100%;
+    height: 10em;
+    padding: 1em;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.container {
+    background-color: #fafafa;
+    --webkit-box-shadow:
+    2.8px 2.8px 2.2px rgba(10, 40, 10, 0.02),
+    6.7px 6.7px 5.3px rgba(10, 40, 10, 0.028),
+    12.5px 12.5px 10px rgba(10, 40, 10, 0.035),
+    22.3px 22.3px 17.9px rgba(10, 40, 10, 0.042);
+    box-shadow:
+    2.8px 2.8px 2.2px rgba(10, 40, 10, 0.02),
+    6.7px 6.7px 5.3px rgba(10, 40, 10, 0.028),
+    12.5px 12.5px 10px rgba(10, 40, 10, 0.035),
+    22.3px 22.3px 17.9px rgba(10, 40, 10, 0.042);
+    border-radius: 5px;
+}
+
+.logo-container {
+    font-size: 0.8em;
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    padding: 1em;
+    text-align: left;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: none;
+}
+.logo {
+    display: inline;
+    color: black;
+}
+.green {
+    color: #559955;
+}
+
+.content {
+    margin: 5em;
+}
+.title {
+    text-align: center;
+    margin: 2em;
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    width: auto;
+    font-size: 2.4em;
+}
+.interaction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: top;
+    flex-wrap: wrap;
+}
+
+
+.interaction-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 2em;
+    padding-bottom: 0;
+    background-color: #f9ffF9;
+    min-width: 20em;
+}
+
+.upload {
+    background-color: transparent;
+    border: 2px 2px;
+    background-color: #f8f8ea;
+    border-color: #b4b40090;
+    border-radius: 2px;
+    border-style: dashed;
+    padding: 1em;
+}
+
+.submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 10em;
+    background-color: #f9ffF9;
+    border-color: #42b40090;
+    border-width: 3px;
+    border-radius: 10px;
+    border-style:none;
+    padding: 1em;
+    font-size: 1.2em;
+    
+}
+
+/* CSS */
+.submit:not([disabled]) {
+  background-color: #e4fce4;
+  cursor: pointer;
+  transition: all 250ms;
+  touch-action: manipulation;
+
+  --webkit-box-shadow:
+  rgba(44, 187, 56, 0.1) 0 -25px 18px -14px inset,
+  2.8px 2.8px 2.2px rgba(0, 10, 0, 0.09),
+  6.7px 6.7px 5.3px rgba(0, 10, 0, 0.078),
+  12.5px 12.5px 10px rgba(0, 10, 0, 0.035);
+  box-shadow:
+  rgba(44, 187, 56, 0.1) 0 -25px 18px -14px inset,
+  2.8px 2.8px 2.2px rgba(0, 10, 0, 0.09),
+  6.7px 6.7px 5.3px rgba(0, 10, 0, 0.078),
+  12.5px 12.5px 10px rgba(0, 10, 0, 0.035);
+}
+
+.submit:hover:not([disabled]) {
+  transform: scale(1.05) translateY(-4px);
+}
+.submit:disabled {
+    background-color: rgb(221, 221, 221);
+    --webkit-box-shadow:
+    2.8px 2.8px 2.2px rgba(0, 10, 0, 0.09);
+    box-shadow:
+    2.8px 2.8px 2.2px rgba(0, 10, 0, 0.09),
+    
+}
+
+#model-upload {
+    display: none;
+    margin-top: 0.5em;
+}
+
+.submit-block {
+    background: transparent;
+    box-shadow: none;
+}
+.error {
+    color: #B55;
+}
+
+select {
+    background: white;
+    border: none;
+    margin-bottom: 1em;
+    padding: 1em;
+    -webkit-box-shadow: 1px 1px 4px 0.2px #898d85; 
+    box-shadow: 1px 1px 4px 0.2px #898d85;
+    border-radius: 3px;
+}
+
+.row {
+    margin-top: 5em;
+  }
+  
