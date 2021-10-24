@@ -1,0 +1,5 @@
+GPUtil
+dicom2nifti
+antspyx
+git+https://github.com/MIC-DKFZ/HD-BET
+
