@@ -22,4 +22,4 @@ optional arguments:
   ``-m {fast,accurate}, --skullstripping {fast,accurate}
                         Skull stripping mode``
 
-Resulting file is stored at path ``DEST_DIR/'warpedfixout.nii.gz`` in working directory
+Resulting file is stored at path ``DEST_DIR/warpedfixout.nii.gz`` in working directory
