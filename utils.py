@@ -68,10 +68,7 @@ def preprocess_nifti(src_path: str, dest_path: str, skull_mode='fast', verbose=T
     )
     logging.info(' '.join(popen1.args))
     out, err = popen1.communicate()
-    p_status = popen1.wait()
-    # os.system(
-    #     ' '.join(['hd-bet', '-i', reoriented_path, '-device', device, '-mode', skull_mode, '-tta', '0']),
-    # )
+    _ = popen1.wait()
     stripped_path = os.path.join(temp_path, str(Path(src_path).with_suffix('').with_suffix('')) + '_reor_bet.nii.gz')
 
     logging.info(f'OUT: {out.decode()}')
