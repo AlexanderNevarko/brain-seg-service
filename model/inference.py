@@ -80,7 +80,8 @@ class Model():
     def plot_cuts(path_to_save, results, img_size=8):
         '''
         path_to_save: path to save cuts image
-        logits: resulting prediction tensor from model
+        results: resulting prediction tensor from model
+        img_size: size of image to plot
         '''
         img = results
         if isinstance(img, torch.Tensor):
