@@ -1,0 +1,75 @@
+import torch
+import torchio
+import numpy as np
+
+from torch.utils.data import DataLoader
+from torchio import AFFINE, DATA, PATH, TYPE, STEM
+
+
+
+class Model():
+    def __init__(self, model_path):
+        try:
+            self.model = torch.load(model_path)
+        except Exception as e:
+            print(e)
+            return e
+        
+        self.device = torch.device('cuda:7') if torch.cuda.is_available() else torch.device('cpu')
+        self.model.eval()
+        self.model.to(self.device)
+        self.MRI = 'MRI'
+    
+    
+    def read_nifty(self, img_path, transform=None):
+        """
+        The function creates dataset from the list of files from cunstumised dataloader.
+        """
+        
+        subject_dict = {
+            self.MRI : torchio.Image(img_path, torchio.INTENSITY)
+        }
+        subject = [torchio.Subject(subject_dict)]
+        if transform is not None:
+            dataset = torchio.SubjectsDataset(subject, transform=transform)
+        else:
+            dataset = torchio.SubjectsDataset(subject)
+        
+        patches_set = torchio.Queue(
+            subjects_dataset=dataset,
+            max_length=240,
+            samples_per_volume=8,
+            sampler=torchio.sampler.UniformSampler(64),
+            shuffle_subjects=False,
+            shuffle_patches=False,
+        )
+        dataloader = DataLoader(patches_set, 
+                                batch_size=4, 
+                                shuffle=False)
+        
+        return dataset, subject, dataloader
+    
+    
+    def predict(self, img_path):
+        transform = None
+        ds, _, _ = self.read_nifty(img_path, transform)
+        sample = ds[0]
+        grid_sampler = torchio.inference.GridSampler(
+            sample,
+            patch_size=64,
+            patch_overlap=0,
+        )
+        patch_loader = DataLoader(
+            grid_sampler, batch_size=4)     
+        aggregator = torchio.inference.GridAggregator(grid_sampler)
+        
+        with torch.no_grad():
+            for patches_batch in patch_loader:
+                inputs = patches_batch[self.MRI][DATA].to(self.device)
+                locations = patches_batch['location']
+                logits = self.model(inputs.float())
+        
+                aggregator.add_batch(logits, locations)
+            
+            prediction = aggregator.get_output_tensor()
+        return prediction.detach().cpu()
