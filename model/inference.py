@@ -59,7 +59,7 @@ class Model():
         grid_sampler = torchio.inference.GridSampler(
             sample,
             patch_size=64,
-            patch_overlap=0,
+            patch_overlap=20,
         )
         patch_loader = DataLoader(
             grid_sampler, batch_size=4)     
