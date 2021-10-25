@@ -1,3 +1,4 @@
+import os
 import torch
 import torchio
 import numpy as np
@@ -6,21 +7,24 @@ import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
 from torchio import AFFINE, DATA, PATH, TYPE, STEM
+from torchio.transforms import HistogramStandardization
 
 
 
 class Model():
-    def __init__(self, model_path):
+    def __init__(self, model_path, storage_path):
+        self.device = torch.device('cuda:7') if torch.cuda.is_available() else torch.device('cpu')
+        
         try:
-            self.model = torch.load(model_path)
+            self.model = torch.load(model_path, map_location=self.device)
         except Exception as e:
             print(e)
             return e
         
-        self.device = torch.device('cuda:7') if torch.cuda.is_available() else torch.device('cpu')
         self.model.eval()
         self.model.to(self.device)
         self.MRI = 'MRI'
+        self.storage_path = storage_path
     
     
     def read_nifty(self, img_path, transform=None):
@@ -53,7 +57,8 @@ class Model():
     
     
     def predict(self, img_path):
-        transform = None
+        transform = HistogramStandardization(
+            os.path.join(self.storage_path, 'pretrained', 'test_landmarks.pth'))
         ds, _, _ = self.read_nifty(img_path, transform)
         sample = ds[0]
         grid_sampler = torchio.inference.GridSampler(
@@ -65,6 +70,7 @@ class Model():
             grid_sampler, batch_size=4)     
         aggregator = torchio.inference.GridAggregator(grid_sampler)
         
+        self.model.eval()
         with torch.no_grad():
             for patches_batch in patch_loader:
                 inputs = patches_batch[self.MRI][DATA].to(self.device)
