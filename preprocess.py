@@ -103,7 +103,6 @@ def main():
         type_of_transform='antsRegistrationSyNQuick[r]',
         random_seed=42
     )
-    final_path = os.path.join(dest_dir, 'final.nii.gz')
     warpedmovout_path = os.path.join(dest_dir, 'warpedmovout.nii.gz')
     warpedfixout_path = os.path.join(dest_dir, 'warpedfixout.nii.gz')
     ants.image_write(res_img['warpedmovout'], warpedmovout_path)

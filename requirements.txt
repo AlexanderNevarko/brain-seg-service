@@ -1,5 +1,5 @@
 GPUtil
 dicom2nifti
 antspyx
-git+https://github.com/MIC-DKFZ/HD-BET
+-e git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET
 
