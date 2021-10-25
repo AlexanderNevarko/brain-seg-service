@@ -1,6 +1,8 @@
 import torch
 import torchio
 import numpy as np
+import nibabel
+import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
 from torchio import AFFINE, DATA, PATH, TYPE, STEM
@@ -68,8 +70,30 @@ class Model():
                 inputs = patches_batch[self.MRI][DATA].to(self.device)
                 locations = patches_batch['location']
                 logits = self.model(inputs.float())
-        
-                aggregator.add_batch(logits, locations)
+                labels = logits.argmax(dim=1, keepdims=True)
+                aggregator.add_batch(labels, locations)
             
-            prediction = aggregator.get_output_tensor()
-        return prediction.detach().cpu()
+            predictions = aggregator.get_output_tensor()
+        return predictions.detach().cpu()
+    
+    @staticmethod
+    def plot_cuts(path_to_save, results, img_size=8):
+        '''
+        path_to_save: path to save cuts image
+        logits: resulting prediction tensor from model
+        '''
+        img = results
+        if isinstance(img, torch.Tensor):
+            img = img.numpy()
+            if (len(img.shape) > 3):
+                img = img[0,:,:,:]
+        elif isinstance(img, nibabel.nifti1.Nifti1Image):    
+            img = img.get_fdata()
+        fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(3 * img_size, img_size))
+        axes[0].imshow(img[ img.shape[0] // 2, :, :])
+        axes[1].imshow(img[ :, img.shape[1] // 2, :])
+        axes[2].imshow(img[ :, :, img.shape[2] // 2])
+        plt.savefig(path_to_save)
+            
+        
+            
