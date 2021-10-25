@@ -57,9 +57,9 @@ class Model():
     
     
     def predict(self, img_path):
-        # landmarks = {'MRI': os.path.join(self.storage_path, 'pretrained', 'test_landmarks.npy')}
+        landmarks_dict = {'MRI': os.path.join(self.storage_path, 'pretrained', 'test_landmarks.npy')}
         
-        transform = None #HistogramStandardization(landmarks)
+        transform = HistogramStandardization(landmarks_dict)
         ds, _, _ = self.read_nifty(img_path, transform)
         sample = ds[0]
         grid_sampler = torchio.inference.GridSampler(
